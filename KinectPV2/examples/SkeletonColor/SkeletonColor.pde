@@ -31,12 +31,16 @@ void draw() {
   image(kinect.getColorImage(), 0, 0, width, height);
 
   ArrayList<KSkeleton> skeletonArray =  kinect.getSkeletonColorMap();
+  ArrayList<KSkeleton> skeletonArrayZ =  kinect.getSkeleton3d();          //for getZ()
 
   //individual JOINTS
   for (int i = 0; i < skeletonArray.size(); i++) {
     KSkeleton skeleton = (KSkeleton) skeletonArray.get(i);
+    KSkeleton skeletonZ = (KSkeleton) skeletonArrayZ.get(i);              //for getZ()
     if (skeleton.isTracked()) {
+      text("skeleton is tracked", 50, 90);
       KJoint[] joints = skeleton.getJoints();
+      KJoint[] jointsZ = skeletonZ.getJoints();                           //for getZ()
 
       color col  = skeleton.getIndexColor();
       fill(col);
@@ -97,6 +101,8 @@ void drawBody(KJoint[] joints) {
   drawJoint(joints, KinectPV2.JointType_ThumbRight);
 
   drawJoint(joints, KinectPV2.JointType_Head);
+  
+  println(jointsZ[jointType].getZ());                     //Z value in meter
 }
 
 //draw joint
